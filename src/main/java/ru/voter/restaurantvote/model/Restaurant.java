@@ -5,11 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "restaurants")
@@ -19,9 +21,9 @@ import java.util.List;
 @NoArgsConstructor
 public class Restaurant extends AbstractNamedEntity {
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL)//, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Dish> menu;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL)//, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Vote> restVotes;
 }
