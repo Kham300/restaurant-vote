@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(callSuper = true, exclude = {"password"})
-public class User extends BaseEntity {
+public class User extends AbstractBaseEntity {
 
     @NotEmpty
     @Size(max = 128)
@@ -41,4 +42,7 @@ public class User extends BaseEntity {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "user_roles_unique")})
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<Vote> votes;
 }

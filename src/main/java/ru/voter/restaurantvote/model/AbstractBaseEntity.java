@@ -1,5 +1,6 @@
 package ru.voter.restaurantvote.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.util.ProxyUtils;
@@ -15,8 +16,9 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public abstract class BaseEntity implements Persistable<Integer> {
+public abstract class AbstractBaseEntity implements Persistable<Integer> {
 
+    public static final int START_SEQ = 10000;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
@@ -26,6 +28,7 @@ public abstract class BaseEntity implements Persistable<Integer> {
         return id;
     }
 
+    @JsonIgnore
     @Override
     public boolean isNew() {
         return id == null;
@@ -40,7 +43,7 @@ public abstract class BaseEntity implements Persistable<Integer> {
         if (o == null || !getClass().equals(ProxyUtils.getUserClass(o))) {
             return false;
         }
-        BaseEntity that = (BaseEntity) o;
+        AbstractBaseEntity that = (AbstractBaseEntity) o;
         return id != null && id.equals(that.id);
     }
 
