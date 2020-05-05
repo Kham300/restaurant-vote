@@ -1,5 +1,6 @@
 package ru.voter.restaurantvote.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,10 +25,11 @@ import javax.validation.constraints.NotNull;
 public class Vote extends AbstractBaseEntity {
 
     @NotNull
-    @Column(name = "vote_date", nullable = false, unique = true, columnDefinition = "2020-05-01")
+    @Column(name = "vote_date", nullable = false, unique = true)
     private LocalDate voteDate;
 
     @NotNull
+    @ApiModelProperty(hidden = true)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

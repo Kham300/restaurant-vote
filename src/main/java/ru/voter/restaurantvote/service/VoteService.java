@@ -43,6 +43,7 @@ public class VoteService {
 
     public Vote create(Vote newVote) {
         if (LocalTime.now().isBefore(LocalTime.of(11, 0, 0))) {
+            //TODO проверить что юзер выгрузился
             Vote lastVote = voteRepository.findTopByUserIdOrderByVoteDateDesc(1);
             Optional.ofNullable(lastVote)
                     .filter(vote -> LocalDate.now().isEqual(vote.getVoteDate()))
