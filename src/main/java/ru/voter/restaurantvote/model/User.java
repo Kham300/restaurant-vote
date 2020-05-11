@@ -1,5 +1,6 @@
 package ru.voter.restaurantvote.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -15,8 +17,8 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(callSuper = true, exclude = {"password"})
-public class User extends AbstractBaseEntity {
+@ToString(callSuper = true, exclude = {"password", "votes"})
+public class User extends AbstractBaseEntity implements Serializable {
 
     @NotEmpty
     @Size(max = 128)
@@ -32,6 +34,7 @@ public class User extends AbstractBaseEntity {
     @Column(name = "last_name")
     private String lastName;
 
+    @JsonIgnore
     @Size(max = 256)
     @Column(name = "password")
     private String password;

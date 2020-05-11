@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.voter.restaurantvote.model.Vote;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Transactional(readOnly = true)
 public interface VoteRepository extends JpaRepository<Vote, Integer> {
@@ -22,4 +23,6 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     @Modifying
     @Query("DELETE FROM Vote v WHERE v.id = ?1 AND v.user.id = ?2")
     int deleteByIdAndUserId(int id, int userId);
+
+    List<Vote> findAllByUserId(int userId);
 }

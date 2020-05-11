@@ -8,7 +8,6 @@ import ru.voter.restaurantvote.model.Vote;
 import ru.voter.restaurantvote.repository.RestaurantRepository;
 import ru.voter.restaurantvote.repository.UserRepository;
 import ru.voter.restaurantvote.repository.VoteRepository;
-import ru.voter.restaurantvote.web.SecurityUtil;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -32,24 +31,25 @@ public class VoteService {
         this.userRepository = userRepository;
     }
 
-    public Vote get(int id) {
-        int userId = SecurityUtil.authUserId();
-        log.info("get meal {} for user {}", id, userId);
+    public Vote get(int id, int userId) {
+        log.info("get vote {} for user {}", id, userId);
         return checkNotFoundWithId(voteRepository.getWithUser(id, userId), id);
     }
 
     @Transactional
     public void delete(int id, int userId) {
+        log.info("delete vote {} for user {}", id, userId);
         checkNotFoundWithId(voteRepository.deleteByIdAndUserId(id, userId) != 0, id);
     }
 
-    public List<Vote> getAll() {
-        return voteRepository.findAll();
+    public List<Vote> getAll(int userId) {
+        log.info("get all vote for user {}", userId);
+        return voteRepository.findAllByUserId(userId);
     }
 
     @Transactional
     public Vote create(Vote newVote, int userId, int restaurantId) {
-//        int userId = SecurityUtil.authUserId();
+        //int userId = SecurityUtil.authUserId();
         Assert.notNull(newVote, "vote must not be null");
         checkNew(newVote);
         log.info("create {} for user {}", newVote, userId);

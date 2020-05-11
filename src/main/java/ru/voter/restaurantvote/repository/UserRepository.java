@@ -13,7 +13,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    @Query("SELECT u FROM User u WHERE u.email = LOWER(:email)")
+    @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
     Optional<User> findByEmailIgnoreCase(String email);
 
     @Transactional

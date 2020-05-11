@@ -27,6 +27,13 @@ spring:
     username: sa
     password:
   h2.console.enabled: true
+
+logging:
+  level:
+    root: WARN
+    ru.voter.restaurantvote: DEBUG
+    org.springframework.security.web.FilterChainProxy: DEBUG
+
 server:
   servlet:
     context-path: /api
