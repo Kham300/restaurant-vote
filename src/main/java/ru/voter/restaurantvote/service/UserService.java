@@ -33,7 +33,7 @@ public class UserService {
     }
 
     public User get(int id) {
-        return checkNotFoundWithId(repository.getOne(id), id);
+        return checkNotFoundWithId(repository.findById(id).orElse(null), id);
     }
 
     public User getByEmail(String email) {

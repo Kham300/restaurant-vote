@@ -4,6 +4,7 @@ import ru.voter.restaurantvote.model.AbstractBaseEntity;
 import ru.voter.restaurantvote.util.exception.NotFoundException;
 
 import javax.validation.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 public class ValidationUtil {
@@ -37,7 +38,7 @@ public class ValidationUtil {
         }
     }
 
-    public static void assureIdConsistent(AbstractBaseEntity entity, int id) {
+    public static void assureIdConsistent(@NotNull AbstractBaseEntity entity, int id) {
 //      conservative when you reply, but accept liberally (http://stackoverflow.com/a/32728226/548473)
         if (entity.isNew()) {
             entity.setId(id);

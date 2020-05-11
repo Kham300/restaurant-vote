@@ -1,17 +1,16 @@
 package ru.voter.restaurantvote.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "restaurants")
@@ -21,9 +20,13 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class Restaurant extends AbstractNamedEntity {
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL)//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Dish> menu;
+    @ApiModelProperty(value = "Dishes")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "restaurant-dishes")
+    private Set<Dish> menu;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL)//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Vote> restVotes;
+    @ApiModelProperty(hidden = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "restaurant-votes")
+    private Set<Vote> voters;
 }

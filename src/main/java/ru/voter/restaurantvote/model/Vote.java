@@ -1,5 +1,8 @@
 package ru.voter.restaurantvote.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,19 +27,22 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class Vote extends AbstractBaseEntity {
 
+    @ApiModelProperty(value = "2020-02-22")
     @NotNull
     @Column(name = "vote_date", nullable = false, unique = true)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate voteDate;
 
-    @NotNull
     @ApiModelProperty(hidden = true)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference(value = "user-vote")
     private User user;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "restaurant_id", nullable = false)
+    @ApiModelProperty(hidden = true)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "restaurant_id")
+    @JsonBackReference(value = "restaurant-votes")
     private Restaurant restaurant;
 
 }
