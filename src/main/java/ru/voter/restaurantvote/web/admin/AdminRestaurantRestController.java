@@ -1,5 +1,6 @@
 package ru.voter.restaurantvote.web.admin;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,16 +13,13 @@ import ru.voter.restaurantvote.service.RestaurantService;
 import java.net.URI;
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping(AdminRestaurantRestController.REST_URL)
 public class AdminRestaurantRestController {
-    static final String REST_URL = "/admin/rest/restaurant";
+    static final String REST_URL = "/management/restaurants";
 
     private final RestaurantService service;
-
-    public AdminRestaurantRestController(RestaurantService service) {
-        this.service = service;
-    }
 
     @GetMapping
     public List<Restaurant> getAll() {
@@ -34,7 +32,8 @@ public class AdminRestaurantRestController {
     }
 
     @Transactional
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@RequestBody Restaurant restaurant) {
         Restaurant created = service.create(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()

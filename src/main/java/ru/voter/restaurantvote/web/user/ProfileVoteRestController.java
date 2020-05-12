@@ -1,29 +1,27 @@
-package ru.voter.restaurantvote.web.vote;
+package ru.voter.restaurantvote.web.user;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import ru.voter.restaurantvote.web.AuthUser;
 import ru.voter.restaurantvote.model.Vote;
 import ru.voter.restaurantvote.service.VoteService;
+import ru.voter.restaurantvote.web.AuthUser;
 
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = ProfileVoteRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileVoteRestController {
-    static final String REST_URL = "/rest/profile/vote";
+    static final String REST_URL = "/profile/votes";
 
     private final VoteService voteService;
-
-    public ProfileVoteRestController(VoteService voteService) {
-        this.voteService = voteService;
-    }
 
     @GetMapping("/{id}")
     public Vote get(@PathVariable int id, @AuthenticationPrincipal AuthUser authUser) {
@@ -41,10 +39,11 @@ public class ProfileVoteRestController {
         return voteService.getAll(authUser.id());
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createWithLocation(@RequestBody Vote vote,
-                                                @RequestParam Integer restaurantId,
-                                                @AuthenticationPrincipal AuthUser authUser) {
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(value = "/{restaurantId}/vote", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createVoteWithLocation(@RequestBody Vote vote,
+                                                    @PathVariable int restaurantId,
+                                                    @AuthenticationPrincipal AuthUser authUser) {
         Vote created = voteService.create(vote, authUser.id(), restaurantId);
         if (Objects.nonNull(created)) {
             URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()

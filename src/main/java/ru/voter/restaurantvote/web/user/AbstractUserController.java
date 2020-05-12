@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.voter.restaurantvote.model.User;
 import ru.voter.restaurantvote.service.UserService;
+import ru.voter.restaurantvote.web.AuthUser;
 
 import java.util.List;
 
@@ -38,9 +39,13 @@ public abstract class AbstractUserController {
         service.delete(id);
     }
 
-    public void update(User user, int id) {
-        log.info("update {} with id={}", user, id);
-        assureIdConsistent(user, id);
+    public void update(User user, AuthUser authUser) {
+        log.info("update {} with id={}", user, authUser.id());
+        assureIdConsistent(user, authUser.id());
+        user.setRoles(authUser.getUser().getRoles());
+        if (user.getPassword() == null) {
+            user.setPassword(authUser.getUser().getPassword());
+        }
         service.update(user);
     }
 

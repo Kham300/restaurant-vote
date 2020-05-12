@@ -50,7 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/account").hasRole(Role.USER.name())
+                .antMatchers("/profile/register").anonymous()
+                .antMatchers("/profile").hasRole(Role.USER.name())
                 .antMatchers("/**").hasRole(Role.ADMIN.name())
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

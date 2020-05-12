@@ -18,7 +18,6 @@ import javax.persistence.*;
 @ToString
 public abstract class AbstractBaseEntity implements Persistable<Integer> {
 
-    public static final int START_SEQ = 10000;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;

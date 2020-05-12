@@ -4,10 +4,12 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.voter.restaurantvote.model.Role;
 import ru.voter.restaurantvote.model.User;
 import ru.voter.restaurantvote.repository.UserRepository;
 
 import java.util.List;
+import java.util.Set;
 
 import static ru.voter.restaurantvote.util.ValidationUtil.checkNotFound;
 import static ru.voter.restaurantvote.util.ValidationUtil.checkNotFoundWithId;
@@ -24,6 +26,7 @@ public class UserService {
     @CacheEvict(value = "users", allEntries = true)
     public User create(User user) {
         Assert.notNull(user, "user must not be null");
+        user.setRoles(Set.of(Role.USER));
         return repository.save(user);
     }
 
@@ -48,7 +51,6 @@ public class UserService {
 
     @CacheEvict(value = "users", allEntries = true)
     public void update(User user) {
-        Assert.notNull(user, "user must not be null");
         checkNotFoundWithId(repository.save(user), user.id());
     }
 
