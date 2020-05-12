@@ -1,8 +1,10 @@
 package ru.voter.restaurantvote.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
+import ru.voter.restaurantvote.util.JsonDeserializers;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -34,9 +36,10 @@ public class User extends AbstractBaseEntity implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
-    @JsonIgnore
     @Size(max = 256)
     @Column(name = "password")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonDeserialize(using = JsonDeserializers.PasswordDeserializer.class)
     private String password;
 
     @Enumerated(EnumType.STRING)

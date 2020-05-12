@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping(AdminRestaurantRestController.REST_URL)
 public class AdminRestaurantRestController {
-    static final String REST_URL = "rest/admin/restaurant";
+    static final String REST_URL = "/admin/rest/restaurant";
 
     private final RestaurantService service;
 
