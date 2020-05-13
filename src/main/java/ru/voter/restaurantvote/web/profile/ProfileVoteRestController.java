@@ -1,4 +1,4 @@
-package ru.voter.restaurantvote.web.user;
+package ru.voter.restaurantvote.web.profile;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,16 +19,16 @@ import java.util.Objects;
 @RestController
 @RequestMapping(value = ProfileVoteRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileVoteRestController {
-    static final String REST_URL = "/profile/votes";
+    static final String REST_URL = "/profile";
 
     private final VoteService voteService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/votes/{id}")
     public Vote get(@PathVariable int id, @AuthenticationPrincipal AuthUser authUser) {
         return voteService.get(id, authUser.id());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/votes/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id, @AuthenticationPrincipal AuthUser authUser) {
         voteService.delete(id, authUser.id());
@@ -40,14 +40,14 @@ public class ProfileVoteRestController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(value = "/{restaurantId}/vote", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createVoteWithLocation(@RequestBody Vote vote,
+    @PostMapping(value = "/restaurants/{restaurantId}/vote", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createVoteWithLocation(@RequestBody Vote newVote,
                                                     @PathVariable int restaurantId,
                                                     @AuthenticationPrincipal AuthUser authUser) {
-        Vote created = voteService.create(vote, authUser.id(), restaurantId);
+        Vote created = voteService.create(newVote, authUser.id(), restaurantId);
         if (Objects.nonNull(created)) {
             URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path(REST_URL + "/{id}")
+                    .path(REST_URL + "/votes/{id}")
                     .buildAndExpand(created.getId()).toUri();
 
             return ResponseEntity.created(uriOfNewResource).body(created);

@@ -1,4 +1,4 @@
-package ru.voter.restaurantvote.web.user;
+package ru.voter.restaurantvote.web.profile;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

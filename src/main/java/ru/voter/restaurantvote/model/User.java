@@ -36,8 +36,9 @@ public class User extends AbstractBaseEntity implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
-    @Size(max = 256)
-    @Column(name = "password")
+    @NotEmpty
+    @Size(max = 256, min = 3)
+    @Column(name = "password", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JsonDeserialize(using = JsonDeserializers.PasswordDeserializer.class)
     private String password;

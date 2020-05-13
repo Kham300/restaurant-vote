@@ -1,4 +1,4 @@
-package ru.voter.restaurantvote.web.user;
+package ru.voter.restaurantvote.web.profile;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping(value = UserRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserRestController extends AbstractUserController {
 
-    static final String REST_URL = "/rest/users";
+    static final String REST_URL = "/users";
 
     @GetMapping
     public List<User> getAll() {
