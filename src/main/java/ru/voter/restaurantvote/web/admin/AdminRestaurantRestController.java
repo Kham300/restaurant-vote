@@ -31,7 +31,6 @@ public class AdminRestaurantRestController {
         return service.get(id);
     }
 
-    @Transactional
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@RequestBody Restaurant restaurant) {
