@@ -2,6 +2,7 @@ package ru.voter.restaurantvote.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,10 +21,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Vote extends AbstractBaseEntity {
 
-    @ApiModelProperty(value = "2020-02-22")
     @NotNull
     @Column(name = "vote_date", nullable = false, unique = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate voteDate;
 
     @ApiModelProperty(hidden = true)

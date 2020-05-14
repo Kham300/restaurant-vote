@@ -19,7 +19,7 @@ public class DateTimeUtil {
 
     public static @Nullable
     LocalDate parseLocalDate(@Nullable String str) {
-        return StringUtils.isEmpty(str) ? null : LocalDate.parse(str);
+        return StringUtils.isEmpty(str) ? null : LocalDate.parse(str, DateTimeFormatter.ISO_DATE);
     }
 
     public static @Nullable LocalTime parseLocalTime(String str) {

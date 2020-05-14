@@ -37,3 +37,7 @@ logging:
 server:
   servlet:
     context-path: /api
+
+api:
+  vote:
+    deadline: '22:00:00'

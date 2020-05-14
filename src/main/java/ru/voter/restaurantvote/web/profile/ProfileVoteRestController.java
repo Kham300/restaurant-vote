@@ -13,7 +13,6 @@ import ru.voter.restaurantvote.web.AuthUser;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Objects;
 
 @AllArgsConstructor
 @RestController
@@ -34,24 +33,19 @@ public class ProfileVoteRestController {
         voteService.delete(id, authUser.id());
     }
 
-    @GetMapping
+    @GetMapping("/votes")
     public List<Vote> getAll(@AuthenticationPrincipal AuthUser authUser) {
         return voteService.getAll(authUser.id());
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/restaurants/{restaurantId}/vote", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createVoteWithLocation(@RequestBody Vote newVote,
-                                                    @PathVariable int restaurantId,
-                                                    @AuthenticationPrincipal AuthUser authUser) {
-        Vote created = voteService.create(newVote, authUser.id(), restaurantId);
-        if (Objects.nonNull(created)) {
-            URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path(REST_URL + "/votes/{id}")
-                    .buildAndExpand(created.getId()).toUri();
-
-            return ResponseEntity.created(uriOfNewResource).body(created);
-        }
-        return new ResponseEntity<>("too late try tomorrow", HttpStatus.CONFLICT);
+    public ResponseEntity<Vote> createVoteWithLocation(@PathVariable int restaurantId,
+                                                       @AuthenticationPrincipal AuthUser authUser) {
+        Vote created = voteService.create(authUser.id(), restaurantId);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/votes/{id}")
+                .buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 }
