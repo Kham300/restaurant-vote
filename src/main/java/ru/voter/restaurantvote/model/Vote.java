@@ -9,20 +9,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "votes")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "votes", uniqueConstraints = @UniqueConstraint(columnNames = {"id", "vote_date", "user_id"}))
 public class Vote extends AbstractBaseEntity {
 
     @NotNull
-    @Column(name = "vote_date", nullable = false, unique = true)
+    @Column(name = "vote_date", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate voteDate;
