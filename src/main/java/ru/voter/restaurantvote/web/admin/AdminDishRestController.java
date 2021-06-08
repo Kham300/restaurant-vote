@@ -45,7 +45,7 @@ public class AdminDishRestController {
     }
 
     @ResponseStatus(value = HttpStatus.CREATED)
-    @PostMapping(value = "/{restaurantId}/dishes/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{restaurantId}/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> createWithLocation(@PathVariable int restaurantId, @RequestBody Dish dish) {
         Dish created = dishService.create(dish, restaurantId);
 

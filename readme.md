@@ -3,13 +3,13 @@
   ####   `api.vote.deadline: '12:00:00'  (localtime + 1)` 
 
 * ### First, let's create new `restaurant` with menu (using manager account): 
-      curl -X POST "http://localhost:8080/api/management/restaurants/new" --user manager@email.ru:admin -H "accept: */*" -H "Content-Type: application/json" -d "{ \"menu\": [ { \"name\": \"dish-1\", \"price\": 10 }, { \"name\": \"dish-2\", \"price\": 20 } ], \"name\": \"restaurant-1\"}"
+      curl -X POST "http://localhost:8080/api/management/restaurants" --user manager@email.ru:admin -H "accept: */*" -H "Content-Type: application/json" -d "{ \"menu\": [ { \"name\": \"dish-1\", \"price\": 10 }, { \"name\": \"dish-2\", \"price\": 20 } ], \"name\": \"restaurant-1\"}"
 
 * ### Then if it needed you can modify menu by following endpoint:
       curl -X PUT "http://localhost:8080/api/management/restaurants/1/dishes/1" --user manager@email.ru:admin -H "accept: */*" -H "Content-Type: application/json" -d "{ \"name\": \"new_modifyed_dish\", \"price\": 99}"
 
 * ### Let's create another `restaurant` with menu:
-      curl -X POST "http://localhost:8080/api/management/restaurants/new" --user manager@email.ru:admin -H "accept: */*" -H "Content-Type: application/json" -d "{ \"menu\": [ { \"name\": \"dish-1\", \"price\": 20 }, { \"name\": \"dish-2\", \"price\": 40 } ], \"name\": \"restaurant-2\"}"
+      curl -X POST "http://localhost:8080/api/management/restaurants" --user manager@email.ru:admin -H "accept: */*" -H "Content-Type: application/json" -d "{ \"menu\": [ { \"name\": \"dish-1\", \"price\": 20 }, { \"name\": \"dish-2\", \"price\": 40 } ], \"name\": \"restaurant-2\"}"
 
 * ### So we can look at all `restaurants`:
       curl -X GET "http://localhost:8080/api/restaurants" 
